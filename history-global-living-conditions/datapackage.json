@@ -1,0 +1,308 @@
+{
+  "name": "history-global-living-conditions",
+  "title": "A History of Global Living Conditions",
+  "description": "Two centuries of progress in human wellbeing — poverty, life expectancy, child mortality, literacy, political freedom, and education — from 1800 to today. Data from Our World in Data, synthesised from the article 'A History of Global Living Conditions in 6 Charts'.",
+  "homepage": "https://ourworldindata.org/a-history-of-global-living-conditions",
+  "version": "1.0.0",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Attribution 4.0 International"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Our World in Data",
+      "path": "https://ourworldindata.org/a-history-of-global-living-conditions",
+      "title": "A History of Global Living Conditions in 6 Charts — Our World in Data"
+    }
+  ],
+  "contributors": [
+    {
+      "title": "Our World in Data",
+      "role": "author"
+    }
+  ],
+  "resources": [
+    {
+      "name": "life-expectancy",
+      "path": "data/life-expectancy.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "Global Life Expectancy at Birth",
+      "description": "Average life expectancy at birth for the world, 1770–2023.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "life_expectancy_years", "type": "number", "description": "Life expectancy at birth (years)" }
+        ]
+      }
+    },
+    {
+      "name": "child-mortality",
+      "path": "data/child-mortality.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "Global Child Mortality Rate",
+      "description": "Share of children dying before age 5 globally, 1800–2023. In 1800 roughly 43 in 100 children died before their fifth birthday; by 2023 that had fallen below 4 in 100.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "child_mortality_rate", "type": "number", "description": "Share of children dying in first five years of life (%)" },
+          { "name": "child_survival_rate", "type": "number", "description": "Share of children surviving first five years of life (%)" }
+        ]
+      }
+    },
+    {
+      "name": "literacy",
+      "path": "data/literacy.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "World Literacy Rate",
+      "description": "Share of the world adult population that is literate vs. illiterate, 1820–2023. In 1820 only 12% of people could read and write; today roughly 87% can.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "literate_pct", "type": "number", "description": "Share of adults who are literate (%)" },
+          { "name": "illiterate_pct", "type": "number", "description": "Share of adults who are illiterate (%)" }
+        ]
+      }
+    },
+    {
+      "name": "democracy",
+      "path": "data/democracy.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "People Living in Democracies vs. Autocracies",
+      "description": "Number of people worldwide living under democratic vs. autocratic political regimes, 1800–2024. Based on the Lexical Index of Electoral Democracy.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "people_in_democracies", "type": "integer", "description": "Number of people living in democracies" },
+          { "name": "people_in_autocracies", "type": "integer", "description": "Number of people living in autocracies" },
+          { "name": "no_regime_data", "type": "integer", "description": "Population with no regime classification data" }
+        ]
+      }
+    },
+    {
+      "name": "poverty",
+      "path": "data/poverty.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "World Population by Income Level",
+      "description": "Distribution of the global population across five income thresholds (in 2011 international dollars per day), 1820–2018. Shows the dramatic decline of extreme poverty alongside growth of the middle class.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "above_30_usd", "type": "integer", "description": "People living on more than $30/day" },
+          { "name": "between_10_30_usd", "type": "integer", "description": "People living on $10–$30/day" },
+          { "name": "between_5_10_usd", "type": "integer", "description": "People living on $5–$10/day" },
+          { "name": "between_1_90_5_usd", "type": "integer", "description": "People living on $1.90–$5/day" },
+          { "name": "below_1_90_usd", "type": "integer", "description": "People living on less than $1.90/day (extreme poverty)" }
+        ]
+      }
+    },
+    {
+      "name": "education",
+      "path": "data/education.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "World Population by Education Level",
+      "description": "Global adult population (15+) broken down by highest level of educational attainment, 1950–2020.",
+      "schema": {
+        "fields": [
+          { "name": "year", "type": "integer", "description": "Year" },
+          { "name": "no_education", "type": "integer", "description": "No formal education" },
+          { "name": "incomplete_primary", "type": "integer", "description": "Some primary education (incomplete)" },
+          { "name": "primary", "type": "integer", "description": "Completed primary education" },
+          { "name": "lower_secondary", "type": "integer", "description": "Completed lower secondary education" },
+          { "name": "upper_secondary", "type": "integer", "description": "Completed upper secondary education" },
+          { "name": "post_secondary", "type": "integer", "description": "Post-secondary / tertiary education" }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "life-expectancy-over-time",
+      "title": "Global Life Expectancy at Birth (1770–2023)",
+      "resources": ["life-expectancy"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": { "type": "line", "color": "#2196F3" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": { "field": "life_expectancy_years", "type": "quantitative", "title": "Life expectancy (years)", "scale": { "zero": false } },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "life_expectancy_years", "type": "quantitative", "title": "Life expectancy (years)", "format": ".1f" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "child-mortality-over-time",
+      "title": "Global Child Mortality Rate (1800–2023)",
+      "resources": ["child-mortality"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": { "type": "line", "color": "#E53935" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": { "field": "child_mortality_rate", "type": "quantitative", "title": "Children dying before age 5 (%)" },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "child_mortality_rate", "type": "quantitative", "title": "Child mortality rate (%)", "format": ".1f" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "literacy-over-time",
+      "title": "World Literacy Rate (1820–2023)",
+      "resources": ["literacy"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          { "fold": ["literate_pct", "illiterate_pct"], "as": ["status", "percent"] }
+        ],
+        "mark": { "type": "area" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": { "field": "percent", "type": "quantitative", "title": "Share of adults (%)", "stack": "zero" },
+          "color": {
+            "field": "status",
+            "type": "nominal",
+            "title": "",
+            "scale": {
+              "domain": ["literate_pct", "illiterate_pct"],
+              "range": ["#4CAF50", "#FF9800"]
+            },
+            "legend": {
+              "labelExpr": "datum.label === 'literate_pct' ? 'Literate' : 'Illiterate'"
+            }
+          },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "status", "type": "nominal", "title": "Status" },
+            { "field": "percent", "type": "quantitative", "title": "%", "format": ".1f" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "democracy-over-time",
+      "title": "People Living in Democracies vs. Autocracies (1800–2024)",
+      "resources": ["democracy"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {
+            "fold": ["people_in_democracies", "people_in_autocracies"],
+            "as": ["regime", "population"]
+          }
+        ],
+        "mark": { "type": "area" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": {
+            "field": "population",
+            "type": "quantitative",
+            "title": "Population",
+            "stack": "zero"
+          },
+          "color": {
+            "field": "regime",
+            "type": "nominal",
+            "title": "",
+            "scale": {
+              "domain": ["people_in_democracies", "people_in_autocracies"],
+              "range": ["#3F51B5", "#F44336"]
+            },
+            "legend": {
+              "labelExpr": "datum.label === 'people_in_democracies' ? 'Democracy' : 'Autocracy'"
+            }
+          },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "regime", "type": "nominal", "title": "Regime" },
+            { "field": "population", "type": "quantitative", "title": "Population", "format": ",.0f" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "poverty-distribution",
+      "title": "World Population by Income Level (1820–2018)",
+      "resources": ["poverty"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {
+            "fold": ["below_1_90_usd", "between_1_90_5_usd", "between_5_10_usd", "between_10_30_usd", "above_30_usd"],
+            "as": ["bracket", "population"]
+          }
+        ],
+        "mark": { "type": "area" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": { "field": "population", "type": "quantitative", "title": "Population", "stack": "zero" },
+          "color": {
+            "field": "bracket",
+            "type": "nominal",
+            "title": "Income bracket",
+            "scale": {
+              "domain": ["below_1_90_usd", "between_1_90_5_usd", "between_5_10_usd", "between_10_30_usd", "above_30_usd"],
+              "range": ["#B71C1C", "#E57373", "#FFB300", "#81C784", "#1B5E20"]
+            }
+          },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "bracket", "type": "nominal", "title": "Income bracket" },
+            { "field": "population", "type": "quantitative", "title": "Population", "format": ",.0f" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "education-attainment",
+      "title": "World Population by Education Level (1950–2020)",
+      "resources": ["education"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {
+            "fold": ["no_education", "incomplete_primary", "primary", "lower_secondary", "upper_secondary", "post_secondary"],
+            "as": ["level", "population"]
+          }
+        ],
+        "mark": { "type": "area" },
+        "encoding": {
+          "x": { "field": "year", "type": "quantitative", "title": "Year" },
+          "y": { "field": "population", "type": "quantitative", "title": "Population (adults 15+)", "stack": "zero" },
+          "color": {
+            "field": "level",
+            "type": "nominal",
+            "title": "Education level",
+            "scale": {
+              "domain": ["no_education", "incomplete_primary", "primary", "lower_secondary", "upper_secondary", "post_secondary"],
+              "range": ["#4E342E", "#FF7043", "#FFA726", "#FFEE58", "#9CCC65", "#26A69A"]
+            }
+          },
+          "tooltip": [
+            { "field": "year", "type": "quantitative", "title": "Year" },
+            { "field": "level", "type": "nominal", "title": "Education level" },
+            { "field": "population", "type": "quantitative", "title": "Population", "format": ",.0f" }
+          ]
+        }
+      }
+    }
+  ]
+}
