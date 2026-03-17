@@ -1,0 +1,174 @@
+{
+  "name": "segregation-tracking",
+  "title": "Segregation Tracking Project",
+  "description": "Comprehensive tracking of segregation across every U.S. neighborhood and school, from the Segregation Tracking Project (USC/Stanford). Includes the publicly available exposure-segregation dataset from Nilforoshan et al. (Nature, 2023) — socioeconomic segregation measured via anonymized mobility data for 382 metropolitan areas and 2,828 counties. The full Segregation Tracking Project dataset (racial/economic segregation in schools and neighborhoods, 1970–2020+) is available at edopportunity.org under a data use agreement.",
+  "homepage": "https://edopportunity.org/segregation/",
+  "version": "1.0.0",
+  "status": "structured",
+  "licenses": [
+    {
+      "name": "other",
+      "path": "https://edopportunity.org/segregation/data/",
+      "title": "Segregation Tracking Project Data Use Agreement (non-commercial, attribution required)"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Segregation Tracking Project",
+      "path": "https://edopportunity.org/segregation/",
+      "title": "The Segregation Tracking Project — USC/Stanford"
+    },
+    {
+      "name": "Nilforoshan et al. 2023",
+      "path": "https://www.nature.com/articles/s41586-023-06757-3",
+      "title": "Nilforoshan, H. et al. Human mobility networks reveal increased segregation in large cities. Nature 623, 71–77 (2023)"
+    },
+    {
+      "name": "Stanford Exposure Segregation Data",
+      "path": "http://segregation.stanford.edu/",
+      "title": "Stanford SNAP Lab — Exposure Segregation Data (county and MSA level)"
+    }
+  ],
+  "contributors": [
+    {
+      "title": "Sean Reardon",
+      "role": "author",
+      "organization": "Stanford University"
+    },
+    {
+      "title": "Ann Owens",
+      "role": "author",
+      "organization": "UCLA"
+    },
+    {
+      "title": "Hamed Nilforoshan",
+      "role": "author",
+      "organization": "Stanford University"
+    },
+    {
+      "title": "Emma Pierson",
+      "role": "author"
+    },
+    {
+      "title": "Jure Leskovec",
+      "role": "author",
+      "organization": "Stanford University"
+    }
+  ],
+  "resources": [
+    {
+      "name": "exposure-segregation-county",
+      "path": "data/exposure-segregation-county.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "Socioeconomic Exposure Segregation by County",
+      "description": "Socioeconomic exposure segregation index for 2,828 U.S. counties, derived from anonymized cell phone mobility data (SafeGraph, 2017). Measures the degree to which lower- and higher-income residents encounter each other in their daily movements.",
+      "schema": {
+        "fields": [
+          {
+            "name": "exposure_segregation",
+            "type": "number",
+            "description": "Raw exposure segregation index. Higher values indicate greater socioeconomic segregation in daily mobility patterns."
+          },
+          {
+            "name": "fips_code",
+            "type": "integer",
+            "description": "County FIPS code (5-digit Federal Information Processing Standard)"
+          },
+          {
+            "name": "county_name",
+            "type": "string",
+            "description": "County name"
+          },
+          {
+            "name": "exposure_segregation_smoothed",
+            "type": "number",
+            "description": "Smoothed exposure segregation index (0–1 scale). Values smoothed to account for small-area estimation noise."
+          }
+        ]
+      }
+    },
+    {
+      "name": "exposure-segregation-msa",
+      "path": "data/exposure-segregation-msa.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "title": "Socioeconomic Exposure Segregation by Metropolitan Area",
+      "description": "Socioeconomic exposure segregation for 382 U.S. metropolitan statistical areas (MSAs), with bridging index. Derived from 1.6 billion person-to-person encounters among 9.6 million individuals (SafeGraph mobility data, 2017). Key finding: exposure segregation is 67% higher in the ten largest metros than in small MSAs.",
+      "schema": {
+        "fields": [
+          {
+            "name": "exposure_segregation",
+            "type": "number",
+            "description": "Exposure segregation index. Higher values indicate greater socioeconomic segregation in daily mobility patterns."
+          },
+          {
+            "name": "msa",
+            "type": "string",
+            "description": "Metropolitan Statistical Area name (e.g. 'New York, NY')"
+          },
+          {
+            "name": "bridging_index",
+            "type": "number",
+            "description": "Bridging index (0–1). Measures cross-socioeconomic connectivity — how much lower-income residents encounter higher-income residents relative to a random baseline. Higher values indicate more bridging across economic groups."
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "county-segregation-histogram",
+      "title": "Distribution of Exposure Segregation Across U.S. Counties",
+      "resources": ["exposure-segregation-county"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": {"type": "bar", "color": "#c0392b"},
+        "encoding": {
+          "x": {
+            "field": "exposure_segregation_smoothed",
+            "type": "quantitative",
+            "bin": {"maxbins": 30},
+            "title": "Exposure Segregation (smoothed)"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Number of Counties"
+          },
+          "tooltip": [
+            {"field": "exposure_segregation_smoothed", "type": "quantitative", "bin": {"maxbins": 30}, "title": "Segregation"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "msa-segregation-vs-bridging",
+      "title": "Exposure Segregation vs. Bridging Index by Metro Area",
+      "resources": ["exposure-segregation-msa"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": {"type": "point", "opacity": 0.6, "color": "#2980b9"},
+        "encoding": {
+          "x": {
+            "field": "exposure_segregation",
+            "type": "quantitative",
+            "title": "Exposure Segregation"
+          },
+          "y": {
+            "field": "bridging_index",
+            "type": "quantitative",
+            "title": "Bridging Index"
+          },
+          "tooltip": [
+            {"field": "msa", "type": "nominal", "title": "Metro Area"},
+            {"field": "exposure_segregation", "type": "quantitative", "title": "Segregation", "format": ".3f"},
+            {"field": "bridging_index", "type": "quantitative", "title": "Bridging Index", "format": ".3f"}
+          ]
+        }
+      }
+    }
+  ]
+}
