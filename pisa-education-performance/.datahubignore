@@ -1,0 +1,4 @@
+AGENTS.md
+process.py
+*.pyc
+__pycache__/

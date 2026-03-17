@@ -1,0 +1,143 @@
+{
+  "name": "pisa-education-performance",
+  "title": "PISA Education Performance",
+  "description": "OECD PISA (Programme for International Student Assessment) mean performance scores for 15-year-olds in mathematics, reading, and science across 85 countries and economies, covering all cycles from 2000 to 2018. PISA is the world's leading cross-country standardised assessment of student skills, conducted every three years by the OECD.",
+  "homepage": "https://www.oecd.org/pisa/",
+  "version": "2018",
+  "status": "structured",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Attribution 4.0 International"
+    }
+  ],
+  "sources": [
+    {
+      "name": "OECD PISA",
+      "path": "https://www.oecd.org/pisa/data/",
+      "title": "OECD Programme for International Student Assessment (PISA) — via World Bank EdStats"
+    },
+    {
+      "name": "World Bank EdStats",
+      "path": "https://datatopics.worldbank.org/education/",
+      "title": "World Bank Education Statistics (EdStats) — PISA indicators LO.PISA.MAT, LO.PISA.REA, LO.PISA.SCI"
+    }
+  ],
+  "resources": [
+    {
+      "name": "pisa-scores",
+      "path": "data/pisa-scores.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Mean PISA performance scores for mathematics, reading, and science by country and year (all students, age 15). Long format: one row per country × subject × year. Covers 85 countries and economies across 7 PISA cycles (2000–2018).",
+      "schema": {
+        "fields": [
+          {
+            "name": "country_name",
+            "type": "string",
+            "description": "Country or economy name (e.g. 'Finland', 'China (Shanghai)', 'United States')"
+          },
+          {
+            "name": "country_code",
+            "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code (e.g. FIN, USA, CHN)"
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "PISA cycle year: 2000, 2003, 2006, 2009, 2012, 2015, or 2018"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "description": "Assessment subject: 'mathematics', 'reading', or 'science'"
+          },
+          {
+            "name": "mean_score",
+            "type": "number",
+            "description": "Mean PISA score for all students in the country/economy. Scale is standardised with OECD mean ≈ 500 and standard deviation ≈ 100."
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "reading-scores-over-time",
+      "title": "PISA Reading Scores by Country (2000–2018)",
+      "resources": ["pisa-scores"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.subject === 'reading'"}
+        ],
+        "mark": {"type": "line", "point": true},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "axis": {"format": "d"}
+          },
+          "y": {
+            "field": "mean_score",
+            "type": "quantitative",
+            "title": "Mean PISA Score",
+            "scale": {"zero": false}
+          },
+          "color": {
+            "field": "country_name",
+            "type": "nominal",
+            "title": "Country",
+            "legend": {"labelLimit": 200}
+          },
+          "tooltip": [
+            {"field": "country_name", "type": "nominal", "title": "Country"},
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "mean_score", "type": "quantitative", "title": "Score", "format": ".1f"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "latest-math-scores",
+      "title": "PISA Mathematics Scores 2018 — Top 30 Countries",
+      "resources": ["pisa-scores"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.subject === 'mathematics' && datum.year === 2018"},
+          {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "mean_score", "order": "descending"}]},
+          {"filter": "datum.rank <= 30"}
+        ],
+        "mark": "bar",
+        "encoding": {
+          "y": {
+            "field": "country_name",
+            "type": "nominal",
+            "title": null,
+            "sort": "-x"
+          },
+          "x": {
+            "field": "mean_score",
+            "type": "quantitative",
+            "title": "Mean PISA Mathematics Score",
+            "scale": {"zero": false}
+          },
+          "color": {
+            "field": "mean_score",
+            "type": "quantitative",
+            "legend": null
+          },
+          "tooltip": [
+            {"field": "country_name", "type": "nominal", "title": "Country"},
+            {"field": "mean_score", "type": "quantitative", "title": "Score", "format": ".1f"}
+          ]
+        }
+      }
+    }
+  ]
+}
